@@ -29,12 +29,12 @@ Notice that the methods provided by Faker are available on the generator passed 
 
 The generator also provides methods to define the relationships between your models. The following relationship generators are made available to you.
 
-* belongsTo
-* belongsToMany
-* hasMany
-* hasManyThrough
-* hasOne
-* hasOneOrMany
+* belongsTo($class)
+* belongsToMany($class, $times = 1)
+* hasMany($class, $times = 1)
+* hasManyThrough($class, $through, $times = 1)
+* hasOne($class)
+* hasOneOrMany($class, $times = 1)
 
 # Building
 

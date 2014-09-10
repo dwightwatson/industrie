@@ -135,7 +135,7 @@ class Factory {
      * @param  array|Closure  $definition
      * @return void
      */
-    public static function define($class, $definition)
+    public static function blueprint($class, $definition)
     {
         return self::setDefinition($class, $definition);
     }
