@@ -14,12 +14,13 @@ class Generator {
     /**
      * Construct the generator.
      *
+     * @param  mixed   $faker
      * @param  string  $formatter
      * @return void
      */
     public function __construct($faker = null, $formatter = 'en_US')
     {
-        $this->faker = Faker::create($formatter);
+        $this->faker = $faker ?: Faker::create($formatter);
     }
 
     /**
