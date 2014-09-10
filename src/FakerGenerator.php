@@ -2,7 +2,7 @@
 
 use Faker\Factory as Faker;
 
-class Generator {
+class FakerGenerator implements GeneratorInterface {
 
     /**
      * Faker instance.
@@ -51,17 +51,17 @@ class Generator {
 
     }
 
-    public function belongsToMany($class)
+    public function belongsToMany($class, $times = 1)
     {
 
     }
 
-    public function hasMany($class)
+    public function hasMany($class, $times = 1)
     {
 
     }
 
-    public function hasManyThrough($class, $through)
+    public function hasManyThrough($class, $through, $times = 1)
     {
 
     }
@@ -71,7 +71,7 @@ class Generator {
 
     }
 
-    public function hasOneOrMany($class)
+    public function hasOneOrMany($class, $times = 1)
     {
 
     }

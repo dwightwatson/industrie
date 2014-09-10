@@ -72,7 +72,7 @@ class Builder {
      */
     public function attributesFor($class, $overrides)
     {
-        return call_user_func($this->definitions[$class], new Generator);
+        return call_user_func($this->definitions[$class], new FakerGenerator);
     }
 
     /**
