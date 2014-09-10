@@ -61,7 +61,7 @@ class DefinitionLoader {
     {
         $directory = $this->getFactoryDirectory();
 
-        return $this->file->files($directory);
+        return $this->file->allFiles($directory);
     }
 
     /**

@@ -1,7 +1,7 @@
 {
     "name": "watson/industrie",
-    "description": "Eloquent model factory.",
-    "keywords": ["laravel", "eloquent", "facroty"],
+    "description": "A simple, yet powerful Eloquent model factory.",
+    "keywords": ["laravel", "eloquent", "factory"],
     "license": "MIT",
     "authors": [
         {
@@ -13,8 +13,8 @@
         "php": ">=5.4.0",
         "fzaninotto/faker": "~1.4.0",
         "illuminate/database": "~4.2.6",
-        "illuminate/support": "~4.2.6",
-        "illuminate/validation": "~4.2.6"
+        "illuminate/filesystem": "~4.2.6",
+        "illuminate/support": "~4.2.6"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
