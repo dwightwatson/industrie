@@ -1,15 +1,9 @@
 <?php namespace Watson\Industrie;
 
-use Illuminate\Filesystem\Filesystem as File;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class DefinitionLoader {
-
-    /**
-     * File instance.
-     *
-     * @param \Illuminate\Support\Facades\File
-     */
-    protected $file;
 
     /**
      * Locations to search for model definitions.
@@ -23,17 +17,6 @@ class DefinitionLoader {
         'tests/factories'
     ];
 
-    /*
-     * Construct the definition loader.
-     *
-     * @param  File  $file
-     * @return void
-     */
-    public function __construct(File $file)
-    {
-        $this->file = $file;
-    }
-
     /**
      * Find the directory that contains the factory definitions.
      *
@@ -43,7 +26,7 @@ class DefinitionLoader {
     {
         foreach ($this->directories as $directory)
         {
-            if ($this->file->isDirectory(base_path() . "/{$directory}"))
+            if (is_dir(base_path() . "/{$directory}"))
             {
                 return base_path(). "/{$directory}";
             }
@@ -61,7 +44,24 @@ class DefinitionLoader {
     {
         $directory = $this->getFactoryDirectory();
 
-        return $this->file->allFiles($directory);
+        $filenames = [];
+
+        foreach ($this->getDirectoryIterator($directory) as $file)
+        {
+            if ($file->isFile())
+            {
+                $filenames[] = $file->getRealPath();
+            }
+        }
+
+        return $filenames;
+    }
+
+    public function getDirectoryIterator($directory)
+    {
+        return new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory)
+        );
     }
 
     /**
