@@ -1,6 +1,7 @@
 <?php namespace Watson\Industrie;
 
 use Faker\Factory as Faker;
+use Faker\Generator as Generator;
 
 class FakerGenerator implements GeneratorInterface {
 
@@ -14,13 +15,12 @@ class FakerGenerator implements GeneratorInterface {
     /**
      * Construct the generator.
      *
-     * @param  mixed   $faker
-     * @param  string  $formatter
+     * @param  Faker\Generator   $faker
      * @return void
      */
-    public function __construct($faker = null, $formatter = 'en_US')
+    public function __construct(Generator $faker = null)
     {
-        $this->faker = $faker ?: Faker::create($formatter);
+        $this->faker = $faker ?: Faker::create('en_US');
     }
 
     /**
@@ -84,7 +84,7 @@ class FakerGenerator implements GeneratorInterface {
      */
     public function __get($key)
     {
-        return $this->faker->{$key};
+        return $this->faker->format($key);
     }
 
     /**

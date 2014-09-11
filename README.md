@@ -5,6 +5,12 @@ Industrie is a factory for generating Eloquent models on the fly, making testing
 
 **Please note that Industrie is still in development and has not yet reached a stable release. That means that it is not yet covered by a test suite and that the API is subject to change.**
 
+# Installation
+
+Simply install Industrie through Composer, just add it to your `require-dev` dependencies.
+
+    "watson/industrie": "dev-master"
+
 # Definitions
 
 First you'll need to define the format of your model. In your `tests/factories` folder, create a definition file. For example, you might want to call the definition for your `User` model `Users.php`:
