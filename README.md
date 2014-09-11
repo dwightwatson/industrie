@@ -1,6 +1,8 @@
 Industrie
 =========
 
+[![Circle CI](https://circleci.com/gh/dwightwatson/industrie.png?style=shield)](https://circleci.com/gh/dwightwatson/industrie)
+
 Industrie is a factory for generating Eloquent models on the fly, making testing easy. It's built upon the [Faker](https://github.com/fzaninotto/Faker) library which makes it really simple to populate your models with good data. It also handles the creation of related models, nested model variations and generating a number of models all at once.
 
 **Please note that Industrie is still in development and has not yet reached a stable release. That means that it is not yet covered by a test suite and that the API is subject to change.**
