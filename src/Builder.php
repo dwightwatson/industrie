@@ -1,6 +1,8 @@
 <?php namespace Watson\Industrie;
 
 use Watson\Industrie\Exceptions\ClassNotFoundException;
+use Watson\Industrie\Exceptions\DefinitionNotFoundException;
+use Watson\Industrie\Exceptions\IncompatibleClassException;
 
 class Builder {
 
@@ -24,9 +26,24 @@ class Builder {
      * @param  array  $definitions
      * @return void
      */
-    public function __construct(array $definitions)
+    public function __construct(array $definitions = array())
     {
         $this->definitions = $definitions;
+    }
+
+    public function getDefinition($class)
+    {
+        if (array_key_exists($class, $this->definitions))
+        {
+            return $this->definitions[$class];
+        }
+
+        throw new DefinitionNotFoundException("The {$class} definition was not found.");
+    }
+
+    public function setDefinition($class, $definition)
+    {
+        $this->definitions[$class] = $definition;
     }
 
     /**
@@ -70,9 +87,11 @@ class Builder {
      * @param  array   $overrides
      * @return array
      */
-    public function attributesFor($class, $overrides)
+    public function attributesFor($class, $overrides = [])
     {
-        return call_user_func($this->definitions[$class], new FakerGenerator);
+        $definition = $this->getDefinition($class);
+
+        return call_user_func($definition, new FakerGenerator);
     }
 
     /**
@@ -117,6 +136,11 @@ class Builder {
         if ( ! class_exists($class))
         {
             throw new ClassNotFoundException("The {$class} class was not found.");
+        }
+
+        if ( ! is_subclass_of($class, 'Illuminate\Database\Eloquent\Model'))
+        {
+            throw new IncompatibleClassException("The {$class} class is not an Eloquent model.");
         }
 
         return new $class;
