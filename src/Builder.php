@@ -129,7 +129,10 @@ class Builder {
 
         for ($i = 0; $i < $this->getTimes(); $i++)
         {
-            $instances[] = $this->build($class, $overrides)->save();
+            $instance = $this->build($class, $overrides);
+            $instance->save();
+
+            $instances[] = $instance;
         }
 
         return count($instances) > 1 ? $instances : $instances[0];
