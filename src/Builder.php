@@ -91,7 +91,10 @@ class Builder {
     {
         $definition = $this->getDefinition($class);
 
-        return call_user_func($definition, new FakerGenerator);
+        return array_merge(
+            call_user_func($definition, new FakerGenerator),
+            $overrides
+        );
     }
 
     /**
@@ -122,7 +125,14 @@ class Builder {
      */
     public function create($class, $overrides = [])
     {
-        return $this->build($class, $overrides)->save();
+        $instances = [];
+
+        for ($i = 0; $i < $this->getTimes(); $i++)
+        {
+            $instances[] = $this->build($class, $overrides)->save();
+        }
+
+        return count($instances) > 1 ? $instances : $instances[0];
     }
 
     /*
