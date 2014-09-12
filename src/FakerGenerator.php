@@ -6,9 +6,16 @@ use Faker\Generator as Generator;
 class FakerGenerator implements GeneratorInterface {
 
     /**
+     * Builder instance.
+     *
+     * @var \Watson\Industrie\Builder
+     */
+    protected $builder;
+
+    /**
      * Faker instance.
      *
-     * @var Faker\Factory
+     * @var \Faker\Factory
      */
     protected $faker;
 
@@ -18,8 +25,9 @@ class FakerGenerator implements GeneratorInterface {
      * @param  Faker\Generator   $faker
      * @return void
      */
-    public function __construct(Generator $faker = null)
+    public function __construct(Builder $builder, Generator $faker = null)
     {
+        $this->builder = $builder;
         $this->faker = $faker ?: Faker::create('en_US');
     }
 
