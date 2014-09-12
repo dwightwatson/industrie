@@ -62,7 +62,7 @@ class Factory {
     {
         if ( ! self::$loader)
         {
-            self::$loader = new DefinitionLoader(new \Illuminate\Filesystem\Filesystem);
+            self::$loader = new DefinitionLoader;
         }
 
         return self::$loader;
@@ -77,32 +77,6 @@ class Factory {
     public static function setLoader($loader)
     {
         self::$loader = $loader;
-    }
-
-    /**
-     * Get the model definition of the given class.
-     *
-     * @param  string  $class
-     * @return mixed
-     */
-    public static function getDefinition($class)
-    {
-        if (array_key_exists($class, self::getDefinitions()))
-        {
-            return self::$definitions[$class];
-        }
-
-        throw new DefinitionNotFoundException("The {$class} definition was not found.");
-    }
-
-    /**
-     * Get the collection of model definitions.
-     *
-     * @return array
-     */
-    public static function getDefinitions()
-    {
-        return self::$definitions;
     }
 
     /**
