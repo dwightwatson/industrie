@@ -76,7 +76,7 @@ class FakerGenerator implements GeneratorInterface {
 
     public function hasOne($class)
     {
-
+        return $this->hasOneOrMany($class);
     }
 
     public function hasOneOrMany($class, $times = 1)
