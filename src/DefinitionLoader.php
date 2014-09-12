@@ -22,7 +22,7 @@ class DefinitionLoader {
      *
      * @return mixed
      */
-    public function getFactoryDirectory()
+    public function getDefinitionDirectory()
     {
         foreach ($this->directories as $directory)
         {
@@ -36,13 +36,26 @@ class DefinitionLoader {
     }
 
     /**
+     * Get a recursive iterator for all files in the given directory.
+     *
+     * @param  string  $directory
+     * @return RecursiveIteratorIterator
+     */
+    public function getDirectoryIterator($directory)
+    {
+        return new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory)
+        );
+    }
+
+    /**
      * Collect all the files from the factory definitions directory.
      *
      * @return array
      */
     public function getDefinitionFiles()
     {
-        $directory = $this->getFactoryDirectory();
+        $directory = $this->getDefinitionDirectory();
 
         $filenames = [];
 
@@ -55,13 +68,6 @@ class DefinitionLoader {
         }
 
         return $filenames;
-    }
-
-    public function getDirectoryIterator($directory)
-    {
-        return new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($directory)
-        );
     }
 
     /**
