@@ -2,20 +2,26 @@
 
 class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
 
-    public $mock;
+    public $builder;
+
+    public $faker;
 
     public $generator;
 
     public function setUp()
     {
-        $this->mock = Mockery::mock('Faker\Generator');
+        $this->builder = Mockery::mock('Watson\Industrie\Builder');
+        $this->faker = Mockery::mock('Faker\Generator');
 
-        $this->generator = new Watson\Industrie\FakerGenerator($this->mock);
+        $this->generator = new Watson\Industrie\FakerGenerator(
+            $this->builder,
+            $this->faker
+        );
     }
 
     public function testDefaultsToFakerGenerator()
     {
-        $result = (new Watson\Industrie\FakerGenerator)->getGenerator();
+        $result = (new Watson\Industrie\FakerGenerator($this->builder))->getGenerator();
 
         $this->assertInstanceOf('Faker\Generator', $result);
     }
@@ -66,7 +72,7 @@ class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
 
     public function testProperitesFallBackToGenerator()
     {
-        $this->mock->shouldReceive('format')->with('foo')->andReturn('bar');
+        $this->faker->shouldReceive('format')->with('foo')->andReturn('bar');
 
         $result = $this->generator->foo;
 
@@ -75,7 +81,7 @@ class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
 
     public function testMethodsFallBackToGenerator()
     {
-        $this->mock->shouldReceive('foo')->with('bar')->andReturn('baz');
+        $this->faker->shouldReceive('foo')->with('bar')->andReturn('baz');
 
         $result = $this->generator->foo('bar');
 
