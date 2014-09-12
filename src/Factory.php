@@ -92,17 +92,6 @@ class Factory {
     }
 
     /**
-     * Syntax-helper for setting the number of times the generator should run.
-     *
-     * @param  int  $times
-     * @return self
-     */
-    public static function times($times = 2)
-    {
-        return self::getInstance()->setTimes($times);
-    }
-
-    /**
      * Add the definition for a class to the repository.
      *
      * @param  string         $class
@@ -112,6 +101,17 @@ class Factory {
     public static function blueprint($class, $definition)
     {
         return self::setDefinition($class, $definition);
+    }
+
+    /**
+     * Syntax-helper for setting the number of times the generator should run.
+     *
+     * @param  int  $times
+     * @return self
+     */
+    public static function times($times = 2)
+    {
+        return self::getInstance()->setTimes($times);
     }
 
     /**
