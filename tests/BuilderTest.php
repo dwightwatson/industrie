@@ -2,11 +2,20 @@
 
 class BuilderTest extends PHPUnit_Framework_TestCase {
 
+    public $repo;
+
     public $builder;
 
     public function setUp()
     {
-        $this->builder = new Watson\Industrie\Builder;
+        $this->repo = Mockery::mock('Watson\Industrie\DefinitionRepository');
+
+        $this->builder = new Watson\Industrie\Builder($this->repo);
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
     }
 
     public function testGetTimes()
@@ -34,13 +43,6 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testAttributesForWithoutDefinition()
-    {
-        $this->setExpectedException('Watson\Industrie\Exceptions\DefinitionNotFoundException');
-
-        $this->builder->attributesFor('Foo');
-    }
-
     public function testBuild()
     {
 
@@ -50,16 +52,12 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
     {
         $this->setExpectedException('Watson\Industrie\Exceptions\ClassNotFoundException');
 
-        $this->builder->setDefinition('Foo', []);
-
         $this->builder->build('Foo');
     }
 
     public function testBuildWithIncompatibleClass()
     {
         $this->setExpectedException('Watson\Industrie\Exceptions\IncompatibleClassException');
-
-        $this->builder->setDefinition('IncompatibleModelStub', []);
 
         $this->builder->build('IncompatibleModelStub');
     }

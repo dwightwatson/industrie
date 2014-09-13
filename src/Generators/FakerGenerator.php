@@ -1,7 +1,8 @@
-<?php namespace Watson\Industrie;
+<?php namespace Watson\Industrie\Generators;
 
 use Faker\Factory as Faker;
 use Faker\Generator as Generator;
+use Watson\Industrie\Builder;
 
 class FakerGenerator implements GeneratorInterface {
 

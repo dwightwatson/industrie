@@ -1,4 +1,4 @@
-<?php namespace Watson\Industrie;
+<?php namespace Watson\Industrie\Generators;
 
 interface GeneratorInterface {
 

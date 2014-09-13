@@ -1,15 +1,17 @@
 <?php namespace Watson\Industrie;
 
+use Watson\Industrie\DefinitionRepository;
 use Watson\Industrie\Exceptions\ClassNotFoundException;
 use Watson\Industrie\Exceptions\DefinitionNotFoundException;
 use Watson\Industrie\Exceptions\IncompatibleClassException;
+use Watson\Industrie\Generators\FakerGenerator;
 
 class Builder {
 
     /**
-     * Model definitions.
+     * Model definition repository.
      *
-     * @var array
+     * @var \Watson\Industrie\DefinitionRepository
      */
     protected $definitions;
 
@@ -26,24 +28,19 @@ class Builder {
      * @param  array  $definitions
      * @return void
      */
-    public function __construct(array $definitions = array())
+    public function __construct(DefinitionRepository $definitions)
     {
         $this->definitions = $definitions;
     }
 
-    public function getDefinition($class)
+    /**
+     * Get the definition repository.
+     *
+     * @return \Watson\Industrie\DefinitionRepository
+     */
+    public function getDefinitions()
     {
-        if (array_key_exists($class, $this->definitions))
-        {
-            return $this->definitions[$class];
-        }
-
-        throw new DefinitionNotFoundException("The {$class} definition was not found.");
-    }
-
-    public function setDefinition($class, $definition)
-    {
-        $this->definitions[$class] = $definition;
+        return $this->definitions;
     }
 
     /**
@@ -89,7 +86,7 @@ class Builder {
      */
     public function attributesFor($class, $overrides = [])
     {
-        $definition = $this->getDefinition($class);
+        $definition = $this->getDefinitions()->getDefinition($class);
 
         return array_merge(
             call_user_func($definition, new FakerGenerator($this)),

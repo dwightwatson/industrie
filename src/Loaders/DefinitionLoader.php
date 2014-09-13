@@ -1,9 +1,9 @@
-<?php namespace Watson\Industrie;
+<?php namespace Watson\Industrie\Loaders;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class DefinitionLoader {
+class DefinitionLoader implements LoaderInterface {
 
     /**
      * Locations to search for model definitions.
@@ -79,7 +79,7 @@ class DefinitionLoader {
     {
         foreach ($this->getDefinitionFiles() as $file)
         {
-            require $file;
+            require_once($file);
         }
     }
 

@@ -13,7 +13,7 @@ class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
         $this->builder = Mockery::mock('Watson\Industrie\Builder');
         $this->faker = Mockery::mock('Faker\Generator');
 
-        $this->generator = new Watson\Industrie\FakerGenerator(
+        $this->generator = new Watson\Industrie\Generators\FakerGenerator(
             $this->builder,
             $this->faker
         );
@@ -21,7 +21,7 @@ class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
 
     public function testDefaultsToFakerGenerator()
     {
-        $result = (new Watson\Industrie\FakerGenerator($this->builder))->getGenerator();
+        $result = (new Watson\Industrie\Generators\FakerGenerator($this->builder))->getGenerator();
 
         $this->assertInstanceOf('Faker\Generator', $result);
     }

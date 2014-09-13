@@ -1,6 +1,6 @@
 <?php namespace Watson\Industrie;
 
-use Watson\Industrie\Exceptions\DefinitionNotFoundException;
+use Watson\Industrie\Loaders\DefinitionLoader;
 
 class Factory {
 
@@ -19,13 +19,6 @@ class Factory {
     protected static $loader;
 
     /**
-     * Model definitions.
-     *
-     * @var array
-     */
-    protected static $definitions = [];
-
-    /**
      * Get the builder.
      *
      * @return \Watson\Industrie\Builder
@@ -34,9 +27,9 @@ class Factory {
     {
         if ( ! self::$builder)
         {
-            self::getLoader()->loadDefinitions();
+            self::$builder = new Builder(new DefinitionRepository);
 
-            self::$builder = new Builder(self::$definitions);
+            self::getLoader()->loadDefinitions();
         }
 
         return self::$builder;
@@ -88,7 +81,7 @@ class Factory {
      */
     public static function setDefinition($class, $definition)
     {
-        self::$definitions[$class] = $definition;
+        self::getInstance()->getDefinitions()->setDefinition($class, $definition);
     }
 
     /**
