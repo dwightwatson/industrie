@@ -62,11 +62,9 @@ class DefinitionLoader implements LoaderInterface {
      */
     public function getDefinitionFiles()
     {
-        $directories = $this->getDefinitionDirectories();
-
         $filenames = [];
 
-        foreach ($directories as $directory)
+        foreach ($this->getDefinitionDirectories() as $directory)
         {
             foreach ($this->getDirectoryIterator($directory) as $file)
             {
