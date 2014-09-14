@@ -72,4 +72,6 @@ Finally, if you want to actually persist these new models as they are generated,
 
 # Relationships
 
-@todo
+Relationships will only be generated when you create a model (not when you build the model or just fetch the attributes for a model, for example). Industrie will recursively loop through your model definitions and create the tree of dependencies for your model.
+
+**Relationships are still being developed and will not work as expected at this stage.**
