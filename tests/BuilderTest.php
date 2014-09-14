@@ -8,7 +8,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        $this->repo = Mockery::mock('Watson\Industrie\DefinitionRepository');
+        $this->repo = Mockery::mock('Watson\Industrie\Definitions\DefinitionRepository');
 
         $this->builder = new Watson\Industrie\Builder($this->repo);
     }

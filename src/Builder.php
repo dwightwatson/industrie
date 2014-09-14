@@ -1,6 +1,6 @@
 <?php namespace Watson\Industrie;
 
-use Watson\Industrie\DefinitionRepository;
+use Watson\Industrie\Definitions\DefinitionRepository;
 use Watson\Industrie\Exceptions\ClassNotFoundException;
 use Watson\Industrie\Exceptions\DefinitionNotFoundException;
 use Watson\Industrie\Exceptions\IncompatibleClassException;

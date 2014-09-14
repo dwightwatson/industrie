@@ -1,8 +1,8 @@
-<?php namespace Watson\Industrie;
+<?php namespace Watson\Industrie\Definitions;
 
 use Watson\Industrie\Exceptions\DefinitionNotFoundException;
 
-class DefinitionRepository {
+class DefinitionRepository implements RepositoryInterface {
 
     /**
      * All model definitions.
@@ -47,7 +47,7 @@ class DefinitionRepository {
      */
     public function setDefinition($class, $definition)
     {
-        $this->definitions[$class] = $definition;
+        return $this->definitions[$class] = $definition;
     }
 
 }

@@ -6,7 +6,7 @@ class DefinitionRepositoryTest extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        $this->repo = new Watson\Industrie\DefinitionRepository;
+        $this->repo = new Watson\Industrie\Definitions\DefinitionRepository;
     }
 
     public function testGetsDefinition()
@@ -33,8 +33,9 @@ class DefinitionRepositoryTest extends PHPUnit_Framework_TestCase {
 
     public function testSetsDefinition()
     {
-        $this->repo->setDefinition('foo', 'bar');
+        $result = $this->repo->setDefinition('foo', 'bar');
 
+        $this->assertEquals('bar', $result);
         $this->assertEquals('bar', $this->repo->getDefinition('foo'));
     }
 

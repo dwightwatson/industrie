@@ -1,5 +1,6 @@
 <?php namespace Watson\Industrie;
 
+use Watson\Industrie\Definitions\DefinitionRepository;
 use Watson\Industrie\Loaders\DefinitionLoader;
 
 class Factory {
