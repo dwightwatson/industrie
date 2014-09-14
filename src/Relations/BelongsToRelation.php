@@ -10,23 +10,14 @@ class BelongsToRelation implements RelationInterface {
     protected $relation;
 
     /**
-     * The relationship name on the instance object.
-     *
-     * @var string
-     */
-    protected $relationship;
-
-    /**
      * Construct the relationship.
      *
      * @param  mixed  $relation
-     * @param  mixed  $relationship
      * @return void
      */
-    public function __construct($relation, $relationship)
+    public function __construct($relation)
     {
         $this->relation = $relation;
-        $this->relationshipName = $relationshipName;
     }
 
     /**
@@ -51,37 +42,16 @@ class BelongsToRelation implements RelationInterface {
     }
 
     /**
-     * Get the relationship name.
-     *
-     * @return mixed
-     */
-    public function getRelationship()
-    {
-        return $this->relationship;
-    }
-
-    /**
-     * Set the relationship name.
-     *
-     * @param  mixed  $relationship
-     * @return mixed
-     */
-    public function setRelationship($relationship)
-    {
-        return $this->relationship = $relationship;
-    }
-
-    /**
      * Save the given instance against the given relation.
      *
      *
      * @param  mixed  $instance
-     * @param  mixed  $relation
+     * @param  mixed  $relationship
      * @return mixed
      */
-    public function save($instance)
+    public function save($instance, $relationship)
     {
-        $instance->{$this->relationshipName}()->associate($this->relation);
+        $instance->{$relationship}()->associate($this->relation);
     }
 
 }

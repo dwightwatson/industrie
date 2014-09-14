@@ -5,6 +5,7 @@ use Watson\Industrie\Exceptions\ClassNotFoundException;
 use Watson\Industrie\Exceptions\DefinitionNotFoundException;
 use Watson\Industrie\Exceptions\IncompatibleClassException;
 use Watson\Industrie\Generators\FakerGenerator;
+use Watson\Industrie\Relations\RelationInterface;
 
 class Builder {
 
@@ -160,7 +161,14 @@ class Builder {
 
         foreach ($this->attributesFor($class, $overrides) as $key => $value)
         {
-            $instance->setAttribute($key, $value);
+            if ($value instanceof RelationInterface)
+            {
+                $value->save($instance, $key);
+            }
+            else
+            {
+                $instance->setAttribute($key, $value);
+            }
         }
 
         if ($persist)

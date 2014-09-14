@@ -57,7 +57,7 @@ class FakerGenerator implements GeneratorInterface {
 
     public function belongsTo($class)
     {
-
+        return new \Watson\Industrie\Relations\BelongsToRelation($this->builder->build($class));
     }
 
     public function belongsToMany($class, $times = 1)

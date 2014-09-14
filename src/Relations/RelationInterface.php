@@ -6,10 +6,9 @@ interface RelationInterface {
      * Construct the relationship.
      *
      * @param  mixed  $relation
-     * @param  mixed  $relationship
      * @return void
      */
-    public function __construct($relation, $relationship);
+    public function __construct($relation);
 
     /**
      * Get the related instance object.
@@ -27,26 +26,12 @@ interface RelationInterface {
     public function setRelation($relation);
 
     /**
-     * Get the relationship name.
-     *
-     * @return mixed
-     */
-    public function getRelationship();
-
-    /**
-     * Set the relationship name.
-     *
-     * @param  mixed  $relationship
-     * @return mixed
-     */
-    public function setRelationship($relationship);
-
-    /**
      * Save the given instance against the given relation.
      *
      * @param  mixed  $instance
+     * @param  mixed  $relationship
      * @return mixed
      */
-    public function save($instance);
+    public function save($instance, $relationship);
 
 }
