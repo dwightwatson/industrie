@@ -22,14 +22,21 @@ class DefinitionLoader implements LoaderInterface {
      *
      * @return mixed
      */
-    public function getDefinitionDirectory()
+    public function getDefinitionDirectories()
     {
+        $directories = [];
+
         foreach ($this->directories as $directory)
         {
             if (is_dir(base_path() . "/{$directory}"))
             {
-                return base_path(). "/{$directory}";
+                $directories[] = base_path(). "/{$directory}";
             }
+        }
+
+        if (count($directories))
+        {
+            return $directories;
         }
 
         throw new FactoryDirectoryNotFoundException;
@@ -55,15 +62,18 @@ class DefinitionLoader implements LoaderInterface {
      */
     public function getDefinitionFiles()
     {
-        $directory = $this->getDefinitionDirectory();
+        $directories = $this->getDefinitionDirectories();
 
         $filenames = [];
 
-        foreach ($this->getDirectoryIterator($directory) as $file)
+        foreach ($directories as $directory)
         {
-            if ($file->isFile())
+            foreach ($this->getDirectoryIterator($directory) as $file)
             {
-                $filenames[] = $file->getRealPath();
+                if ($file->isFile())
+                {
+                    $filenames[] = $file->getRealPath();
+                }
             }
         }
 
