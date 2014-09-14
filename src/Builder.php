@@ -103,14 +103,7 @@ class Builder {
      */
     public function build($class, $overrides = [])
     {
-        $instance = $this->getInstance($class);
-
-        foreach ($this->attributesFor($class, $overrides) as $key => $value)
-        {
-            $instance->setAttribute($key, $value);
-        }
-
-        return $instance;
+        return $this->buildInstance($class, $overrides);
     }
 
     /**
@@ -126,10 +119,7 @@ class Builder {
 
         for ($i = 0; $i < $this->getTimes(); $i++)
         {
-            $instance = $this->build($class, $overrides);
-            $instance->save();
-
-            $instances[] = $instance;
+            $instances[] = $this->buildInstance($class, $overrides, true);
         }
 
         return count($instances) > 1 ? $instances : $instances[0];
@@ -141,7 +131,7 @@ class Builder {
      * @param  stirng  $class
      * @return mixed
      */
-    public function getInstance($class)
+    protected function getInstance($class)
     {
         if ( ! class_exists($class))
         {
@@ -154,6 +144,31 @@ class Builder {
         }
 
         return new $class;
+    }
+
+    /**
+     * Build an instance of the given class with attributes.
+     *
+     * @param  string  $class
+     * @param  array   $overrides
+     * @param  bool    $persist
+     * @return mixed
+     */
+    protected function buildInstance($class, $overrides = [], $persist = false)
+    {
+        $instance = $this->getInstance($class);
+
+        foreach ($this->attributesFor($class, $overrides) as $key => $value)
+        {
+            $instance->setAttribute($key, $value);
+        }
+
+        if ($persist)
+        {
+            $instance->save();
+        }
+
+        return $instance;
     }
 
 }
