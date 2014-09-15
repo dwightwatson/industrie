@@ -21,17 +21,31 @@ class Factory {
     protected static $loader;
 
     /**
+     * The class implementing the RepositoryInterface to be used.
+     *
+     * @var string
+     */
+    protected static $repository = 'Watson\Industrie\Definitions\DefinitionRepository';
+
+    /**
+     * The class implementing the GeneratorInterface to be used.
+     *
+     * @var string
+     */
+    protected static $generator = 'Watson\Industrie\Generators\FakerGenerator';
+
+    /**
      * Get the builder.
      *
      * @return \Watson\Industrie\Builder
      */
-    public static function getInstance()
+    public static function getBuilder()
     {
         if ( ! self::$builder)
         {
             self::$builder = new Builder(
-                new DefinitionRepository,
-                new FakerGenerator
+                new self::$repository,
+                new self::$generator
             );
 
             self::getLoader()->loadDefinitions();
@@ -78,6 +92,48 @@ class Factory {
     }
 
     /**
+     * Get the repository class being used by the factory.
+     *
+     * @return string
+     */
+    public static function getRepository()
+    {
+        return self::$repository;
+    }
+
+    /**
+     * Set the repository class being used by the factory.
+     *
+     * @param  string  $repository
+     * @return void
+     */
+    public static function setRepository($repository)
+    {
+        self::$repository = $repository;
+    }
+
+    /**
+     * Get the generator class being used by the factory.
+     *
+     * @return string
+     */
+    public static function getGenerator()
+    {
+        return self::$generator;
+    }
+
+    /**
+     * Set the generator class being used by the factory.
+     *
+     * @param  string  $generator
+     * @return void
+     */
+    public static function setGenerator($generator)
+    {
+        self::$generator = $generator;
+    }
+
+    /**
      * Set the model definition for the given class.
      *
      * @param  string         $class
@@ -86,7 +142,7 @@ class Factory {
      */
     public static function setDefinition($class, $definition)
     {
-        self::getInstance()->getDefinitions()->setDefinition($class, $definition);
+        self::getBuilder()->getDefinitions()->setDefinition($class, $definition);
     }
 
     /**
@@ -109,7 +165,7 @@ class Factory {
      */
     public static function times($times = 2)
     {
-        return self::getInstance()->setTimes($times);
+        return self::getBuilder()->setTimes($times);
     }
 
     /**
@@ -120,7 +176,7 @@ class Factory {
      */
     public static function attributesFor($class, $overrides = [])
     {
-        return self::getInstance()->attributesFor($class, $overrides);
+        return self::getBuilder()->attributesFor($class, $overrides);
     }
 
     /**
@@ -143,7 +199,7 @@ class Factory {
      */
     public static function build($class, $overrides = [])
     {
-        return self::getInstance()->build($class, $overrides);
+        return self::getBuilder()->build($class, $overrides);
     }
 
     /**
@@ -154,7 +210,7 @@ class Factory {
      */
     public static function create($class, $overrides = [])
     {
-        return self::getInstance()->create($class, $overrides);
+        return self::getBuilder()->create($class, $overrides);
     }
 
 }

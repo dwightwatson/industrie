@@ -99,10 +99,13 @@ class Builder {
      * Set the number of times we are building the class.
      *
      * @param  int  $times
+     * @return this
      */
     public function setTimes($times = 2)
     {
         $this->times = $times;
+
+        return $this;
     }
 
     /**
