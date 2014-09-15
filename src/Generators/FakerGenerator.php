@@ -27,10 +27,30 @@ class FakerGenerator implements GeneratorInterface {
      * @param  Faker\Generator   $faker
      * @return void
      */
-    public function __construct(Builder $builder, Generator $faker = null)
+    public function __construct(Generator $faker = null)
+    {
+        $this->faker = $faker ?: Faker::create('en_US');
+    }
+
+    /**
+     * Get the builder.
+     *
+     * @return \Watson\Industrie\Builder
+     */
+    public function getBuilder()
+    {
+        return $this->builder;
+    }
+
+    /**
+     * Set the builder.
+     *
+     * @param  \Watson\Industrie\Builder  $builder
+     * @return void
+     */
+    public function setBuilder($builder)
     {
         $this->builder = $builder;
-        $this->faker = $faker ?: Faker::create('en_US');
     }
 
     /**

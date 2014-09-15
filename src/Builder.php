@@ -1,10 +1,10 @@
 <?php namespace Watson\Industrie;
 
-use Watson\Industrie\Definitions\DefinitionRepository;
+use Watson\Industrie\Definitions\RepositoryInterface;
 use Watson\Industrie\Exceptions\ClassNotFoundException;
 use Watson\Industrie\Exceptions\DefinitionNotFoundException;
 use Watson\Industrie\Exceptions\IncompatibleClassException;
-use Watson\Industrie\Generators\FakerGenerator;
+use Watson\Industrie\Generators\GeneratorInterface;
 use Watson\Industrie\Relations\RelationInterface;
 
 class Builder {
@@ -12,9 +12,16 @@ class Builder {
     /**
      * Model definition repository.
      *
-     * @var \Watson\Industrie\DefinitionRepository
+     * @var \Watson\Industrie\Definitions\RepositoryInterface
      */
     protected $definitions;
+
+    /**
+     * The generator instance.
+     *
+     * @var \Watson\Industrie\Generators\GeneratorInterface
+     */
+    protected $generator;
 
     /**
      * The number of times we are building the class.
@@ -26,22 +33,58 @@ class Builder {
     /**
      * Construct the builder.
      *
-     * @param  array  $definitions
+     * @param  \Watson\Industrie\Definitions\RepositoryInterface  $definitions
+     * @param  \Watson\Industrie\Generators\GeneratorInterface    $generator
      * @return void
      */
-    public function __construct(DefinitionRepository $definitions)
+    public function __construct(RepositoryInterface $definitions, GeneratorInterface $generator)
     {
         $this->definitions = $definitions;
+        $this->generator = $generator;
+
+        $this->generator->setBuilder($this);
     }
 
     /**
      * Get the definition repository.
      *
-     * @return \Watson\Industrie\DefinitionRepository
+     * @return \Watson\Industrie\Definitions\RepositoryInterface
      */
     public function getDefinitions()
     {
         return $this->definitions;
+    }
+
+    /**
+     * Set the definition repository.
+     *
+     * @param  \Watson\Industrie\Definitions\RepositoryInterface
+     * @return void
+     */
+    public function setDefinitions(RepositoryInterface $definitions)
+    {
+        $this->definitions = $definitions;
+    }
+
+    /**
+     * Get the generator.
+     *
+     * @return \Watson\Industrie\Generators\GeneratorInterface
+     */
+    public function getGenerator()
+    {
+        return $this->generator;
+    }
+
+    /**
+     * Set the generator.
+     *
+     * @param  \Watson\Industrie\Generators\GeneratorInterface
+     * @return void
+     */
+    public function setGenerator(GeneratorInterface $generator)
+    {
+        $this->generator = $generator;
     }
 
     /**
@@ -58,13 +101,10 @@ class Builder {
      * Set the number of times we are building the class.
      *
      * @param  int  $times
-     * @return this
      */
     public function setTimes($times = 2)
     {
         $this->times = $times;
-
-        return $this;
     }
 
     /**
@@ -89,7 +129,7 @@ class Builder {
     {
         $definition = $this->getDefinitions()->getDefinition($class);
 
-        $attributes = call_user_func($definition, new FakerGenerator($this));
+        $attributes = call_user_func($definition, $this->generator);
 
         return array_merge($attributes, $overrides);
     }
@@ -177,7 +217,5 @@ class Builder {
 
         return $instance;
     }
-
-
 
 }

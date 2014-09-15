@@ -1,6 +1,7 @@
 <?php namespace Watson\Industrie;
 
 use Watson\Industrie\Definitions\DefinitionRepository;
+use Watson\Industrie\Generators\FakerGenerator;
 use Watson\Industrie\Loaders\DefinitionLoader;
 
 class Factory {
@@ -28,7 +29,10 @@ class Factory {
     {
         if ( ! self::$builder)
         {
-            self::$builder = new Builder(new DefinitionRepository);
+            self::$builder = new Builder(
+                new DefinitionRepository,
+                new FakerGenerator
+            );
 
             self::getLoader()->loadDefinitions();
         }
