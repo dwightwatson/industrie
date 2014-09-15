@@ -62,8 +62,3 @@ Finally, if you want to actually persist these new models as they are generated,
 Relationships will only be generated when you create a model (not when you build the model or just fetch the attributes for a model, for example). Industrie will recursively loop through your model definitions and create the tree of dependencies for your model.
 
 To define a relationship, simply set the field on your model definition using the `belongsTo` generator. You may also pass any overrides you wish through to the generator.
-
-# Todo
-* Additional tests
-* Ensure attribute overrides are used
-* Relations when generating multiple instances
