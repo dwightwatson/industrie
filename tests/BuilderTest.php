@@ -43,6 +43,11 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
 
     }
 
+    public function testAttributesForWithOverrides()
+    {
+
+    }
+
     public function testBuild()
     {
 

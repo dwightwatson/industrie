@@ -89,10 +89,9 @@ class Builder {
     {
         $definition = $this->getDefinitions()->getDefinition($class);
 
-        return array_merge(
-            call_user_func($definition, new FakerGenerator($this)),
-            $overrides
-        );
+        $attributes = call_user_func($definition, new FakerGenerator($this));
+
+        return array_merge($attributes, $overrides);
     }
 
     /**
@@ -178,5 +177,7 @@ class Builder {
 
         return $instance;
     }
+
+
 
 }
