@@ -11,8 +11,6 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
         $this->repo = Mockery::mock('Watson\Industrie\Definitions\DefinitionRepository');
         $this->generator = Mockery::mock('Watson\Industrie\Generators\FakerGenerator');
 
-        $this->generator->shouldReceive('setBuilder');
-
         $this->builder = new Watson\Industrie\Builder($this->repo, $this->generator);
     }
 

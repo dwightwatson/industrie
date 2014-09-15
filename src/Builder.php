@@ -41,8 +41,6 @@ class Builder {
     {
         $this->definitions = $definitions;
         $this->generator = $generator;
-
-        $this->generator->setBuilder($this);
     }
 
     /**
@@ -128,6 +126,8 @@ class Builder {
     public function attributesFor($class, $overrides = [])
     {
         $definition = $this->getDefinitions()->getDefinition($class);
+
+        $this->generator->setBuilder($this);
 
         $attributes = call_user_func($definition, $this->generator);
 
