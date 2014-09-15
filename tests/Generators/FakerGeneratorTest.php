@@ -2,7 +2,6 @@
 
 class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
 
-    public $builder;
 
     public $faker;
 
@@ -10,18 +9,16 @@ class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        $this->builder = Mockery::mock('Watson\Industrie\Builder');
         $this->faker = Mockery::mock('Faker\Generator');
 
         $this->generator = new Watson\Industrie\Generators\FakerGenerator(
-            $this->builder,
             $this->faker
         );
     }
 
     public function testDefaultsToFakerGenerator()
     {
-        $result = (new Watson\Industrie\Generators\FakerGenerator($this->builder))->getGenerator();
+        $result = (new Watson\Industrie\Generators\FakerGenerator)->getGenerator();
 
         $this->assertInstanceOf('Faker\Generator', $result);
     }
@@ -38,36 +35,6 @@ class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
         $this->generator->setGenerator('foo');
 
         $this->assertEquals('foo', $this->generator->getGenerator());
-    }
-
-    public function testBelongsTo()
-    {
-
-    }
-
-    public function testBelongsToMany()
-    {
-
-    }
-
-    public function testHasMany()
-    {
-
-    }
-
-    public function testHasManyThrough()
-    {
-
-    }
-
-    public function testHasOne()
-    {
-
-    }
-
-    public function testHasOneOrMany()
-    {
-
     }
 
     public function testProperitesFallBackToGenerator()

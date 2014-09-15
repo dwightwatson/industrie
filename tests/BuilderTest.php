@@ -9,8 +9,11 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
     public function setUp()
     {
         $this->repo = Mockery::mock('Watson\Industrie\Definitions\DefinitionRepository');
+        $this->generator = Mockery::mock('Watson\Industrie\Generators\FakerGenerator');
 
-        $this->builder = new Watson\Industrie\Builder($this->repo);
+        $this->generator->shouldReceive('setBuilder');
+
+        $this->builder = new Watson\Industrie\Builder($this->repo, $this->generator);
     }
 
     public function tearDown()
@@ -40,7 +43,6 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
 
     public function testAttributesFor()
     {
-
     }
 
     public function testAttributesForWithOverrides()
