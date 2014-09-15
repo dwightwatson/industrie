@@ -120,6 +120,18 @@ class Factory {
     }
 
     /**
+     * Wrapper to get the attributes for a class.
+     *
+     * @param  string  $class
+     * @param  array   $overrides
+     * @return array
+     */
+    public static function getAttributes($class, $overrides = [])
+    {
+        return self::attributesFor($class, $overrides);
+    }
+
+    /**
      * Build classes with attributes set.
      *
      * @param  string  $class

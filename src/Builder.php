@@ -79,7 +79,7 @@ class Builder {
     }
 
     /**
-     * Get the attribtues for a class.
+     * Get the attributes for a class.
      *
      * @param  string  $class
      * @param  array   $overrides

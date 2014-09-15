@@ -38,6 +38,7 @@ Once you've defined your models you can go ahead and start building them. At the
 
     Factory::attributesFor('App\User');
 
+    // Array of attributes.
     [
         'first_name'  => 'John',
         'family_name' => 'Smith',
@@ -48,11 +49,42 @@ Once you've defined your models you can go ahead and start building them. At the
 
 Cool, what if we wanted to actually `build()` these model instances though?
 
-    Factory::build('App\User'); // new populated App\User instance
+    Factory::build('App\User');
+
+    // New populated user instace.
+    App\User([
+        'first_name'  => 'Jane',
+        'family_name' => 'Doe',
+        'email'       => 'jane@doe.com',
+        'password'    => 'hunter2',
+        'status'      => 'approved'
+    ])
 
 If you want multiple models too, it's a cinch with `times()`.
 
-    Factory::times(2)->build('App\User'); // [$user1, $user2]
+    Factory::times(2)->build('App\User');
+
+    // Array of new users with relations.
+    array(
+        App\User([
+            'first_name'  => 'John',
+            'family_name' => 'Smith',
+            'email'       => 'john@smith.com',
+            'password'    => 'foobarbaz',
+            'status'      => 'approved',
+
+            'country'     => App\Country(...)
+        ]),
+        App\User([
+            'first_name'  => 'Jane',
+            'family_name' => 'Doe',
+            'email'       => 'jane@doe.com',
+            'password'    => 'hunter2',
+            'status'      => 'approved',
+
+            'country'     => App\Country(...)
+        ])
+    )
 
 Finally, if you want to actually persist these new models as they are generated, use the `create()` method.
 
