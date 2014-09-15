@@ -65,7 +65,9 @@ class FakerGenerator implements GeneratorInterface {
      */
     public function belongsTo($class, $overrides = [])
     {
-        return new BelongsToRelation($this->builder->create($class, $overrides));
+        $instance = $this->builder->create($class, $overrides);
+
+        return new BelongsToRelation($instance);
     }
 
     /**
