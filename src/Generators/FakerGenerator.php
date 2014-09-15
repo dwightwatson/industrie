@@ -3,6 +3,7 @@
 use Faker\Factory as Faker;
 use Faker\Generator as Generator;
 use Watson\Industrie\Builder;
+use Watson\Industrie\Relations\BelongsToRelation;
 
 class FakerGenerator implements GeneratorInterface {
 
@@ -55,34 +56,16 @@ class FakerGenerator implements GeneratorInterface {
         return $this;
     }
 
-    public function belongsTo($class)
+    /**
+     * Generate the belongs to relationship.
+     *
+     * @param  string  $class
+     * @param  array   $overrides
+     * @return \Watson\Industrie\Relations\BelongsToRelation
+     */
+    public function belongsTo($class, $overrides = [])
     {
-        return new \Watson\Industrie\Relations\BelongsToRelation($this->builder->build($class));
-    }
-
-    public function belongsToMany($class, $times = 1)
-    {
-
-    }
-
-    public function hasMany($class, $times = 1)
-    {
-
-    }
-
-    public function hasManyThrough($class, $through, $times = 1)
-    {
-
-    }
-
-    public function hasOne($class)
-    {
-        return $this->hasOneOrMany($class);
-    }
-
-    public function hasOneOrMany($class, $times = 1)
-    {
-
+        return new BelongsToRelation($this->builder->create($class, $overrides));
     }
 
     /**

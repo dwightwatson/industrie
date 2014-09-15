@@ -8,13 +8,11 @@ Industrie is a factory for generating Eloquent models on the fly, making testing
 **Please note that Industrie is still in development and has not yet reached a stable release. That means that it is not yet covered by a test suite and that the API is subject to change.**
 
 # Installation
-
 Simply install Industrie through Composer, just add it to your `require-dev` dependencies.
 
     "watson/industrie": "dev-master"
 
 # Definitions
-
 First you'll need to define the format of your model. In your `tests/factories` folder, create a definition file. For example, you might want to call the definition for your `User` model `Users.php`:
 
     <?php
@@ -29,23 +27,13 @@ First you'll need to define the format of your model. In your `tests/factories` 
             'password'    => $generator->password,
             'status'      => 'approved',
 
-            'posts' => $generator->hasMany('App\Post'),
+            'country' => $generator->belongsTo('App\Country')
         ];
     });
 
 Notice that the methods provided by Faker are available on the generator passed into the closure, making it really easy to generate fake data. Also note that these will be recalculated every time you build a new instance so that you won't get stuck with multiple identical models.
 
-The generator also provides methods to define the relationships between your models. The following relationship generators are made available to you.
-
-* belongsTo($class)
-* belongsToMany($class, $times = 1)
-* hasMany($class, $times = 1)
-* hasManyThrough($class, $through, $times = 1)
-* hasOne($class)
-* hasOneOrMany($class, $times = 1)
-
 # Building
-
 Once you've defined your models you can go ahead and start building them. At the core is the `attributesFor()` method which will simply return an array with valid attributes for your model as per your definitions.
 
     Factory::attributesFor('App\User');
@@ -71,7 +59,6 @@ Finally, if you want to actually persist these new models as they are generated,
     Factory::create('App\User');
 
 # Relationships
-
 Relationships will only be generated when you create a model (not when you build the model or just fetch the attributes for a model, for example). Industrie will recursively loop through your model definitions and create the tree of dependencies for your model.
 
-**Relationships are still being developed and will not work as expected at this stage.**
+To define a relationship, simply set the field on your model definition using the `belongsTo` generator. You may also pass any overrides you wish through to the generator.
