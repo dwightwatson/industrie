@@ -2,17 +2,10 @@
 
 use Faker\Factory as Faker;
 use Faker\Generator as Generator;
-use Watson\Industrie\Builder;
 use Watson\Industrie\Relations\BelongsToRelation;
+use Watson\Industrie\Factory;
 
 class FakerGenerator implements GeneratorInterface {
-
-    /**
-     * Builder instance.
-     *
-     * @var \Watson\Industrie\Builder
-     */
-    protected $builder;
 
     /**
      * Faker instance.
@@ -30,27 +23,6 @@ class FakerGenerator implements GeneratorInterface {
     public function __construct(Generator $faker = null)
     {
         $this->faker = $faker ?: Faker::create('en_US');
-    }
-
-    /**
-     * Get the builder.
-     *
-     * @return \Watson\Industrie\Builder
-     */
-    public function getBuilder()
-    {
-        return $this->builder;
-    }
-
-    /**
-     * Set the builder.
-     *
-     * @param  \Watson\Industrie\Builder  $builder
-     * @return void
-     */
-    public function setBuilder($builder)
-    {
-        $this->builder = $builder;
     }
 
     /**
@@ -85,7 +57,7 @@ class FakerGenerator implements GeneratorInterface {
      */
     public function belongsTo($class, $overrides = [])
     {
-        $instance = $this->builder->create($class, $overrides, 1);
+        $instance = Factory::create($class, $overrides);
 
         return new BelongsToRelation($instance);
     }

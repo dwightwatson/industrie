@@ -1,5 +1,6 @@
 <?php namespace Watson\Industrie;
 
+use Closure;
 use Watson\Industrie\Definitions\DefinitionRepository;
 use Watson\Industrie\Generators\FakerGenerator;
 use Watson\Industrie\Loaders\DefinitionLoader;
@@ -7,32 +8,25 @@ use Watson\Industrie\Loaders\DefinitionLoader;
 class Factory {
 
     /**
-     * Builder instance.
+     * The definition repository.
      *
-     * @var Builder
+     * @var \Watson\Industrie\Definitions\RepositoryInterface
      */
-    protected static $builder;
+    protected static $definitions;
 
     /**
-     * Loader instance.
+     * The generator instance.
      *
-     * @var DefinitionLoader
+     * @var \Watson\Industrie\Generators\GeneratorInterface
+     */
+    protected static $generator;
+
+    /**
+     * The loader instance.
+     *
+     * @var \Watson\Industrie\Loaders\LoaderInterface
      */
     protected static $loader;
-
-    /**
-     * The class implementing the RepositoryInterface to be used.
-     *
-     * @var string
-     */
-    protected static $repository = 'Watson\Industrie\Definitions\DefinitionRepository';
-
-    /**
-     * The class implementing the GeneratorInterface to be used.
-     *
-     * @var string
-     */
-    protected static $generator = 'Watson\Industrie\Generators\FakerGenerator';
 
     /**
      * Get the builder.
@@ -41,34 +35,18 @@ class Factory {
      */
     public static function getBuilder()
     {
-        if ( ! self::$builder)
+        if ( ! self::$definitions)
         {
-            self::$builder = new Builder(
-                new self::$repository,
-                new self::$generator
-            );
-
             self::getLoader()->loadDefinitions();
         }
 
-        return self::$builder;
-    }
-
-    /**
-     * Set the builder.
-     *
-     * @param  mixed  $builder
-     * @return void
-     */
-    public static function setBuilder($builder)
-    {
-        self::$builder = $builder;
+        return new Builder(self::getDefinitions(), self::getGenerator());
     }
 
     /**
      * Get the loader.
      *
-     * @return \Watson\Industrie\DefinitionLoader
+     * @return \Watson\Industrie\Loaders\DefinitionLoader
      */
     public static function getLoader()
     {
@@ -81,54 +59,64 @@ class Factory {
     }
 
     /**
-     * Set the builder.
+     * Set the loader.
      *
-     * @param  mixed  $loader
+     * @param  \Watson\Industrie\Loaders\LoaderInterface
      * @return void
      */
-    public static function setLoader($loader)
+    public static function setLoader(LoaderInterface $loader)
     {
         self::$loader = $loader;
     }
 
     /**
-     * Get the repository class being used by the factory.
+     * Get the class definitions repository.
      *
-     * @return string
+     * @return \Watson\Industrie\Definitions\RepositoryInterface
      */
-    public static function getRepository()
+    public static function getDefinitions()
     {
-        return self::$repository;
+        if ( ! self::$definitions)
+        {
+            self::$definitions = new DefinitionRepository;
+        }
+
+        return self::$definitions;
     }
 
     /**
-     * Set the repository class being used by the factory.
+     * Set the class defintions repository.
      *
-     * @param  string  $repository
+     * @param  \Watson\Industrie\Definitions\RepositoryInterface  $definitions
      * @return void
      */
-    public static function setRepository($repository)
+    public static function setDefinitions(RepositoryInterface $definitions)
     {
-        self::$repository = $repository;
+        self::$definitions = $definitions;
     }
 
     /**
-     * Get the generator class being used by the factory.
+     * Get the content generator instance.
      *
-     * @return string
+     * @return \Watson\Industrie\Generators\GeneratorInterface
      */
     public static function getGenerator()
     {
+        if ( ! self::$generator)
+        {
+            self::$generator = new FakerGenerator;
+        }
+
         return self::$generator;
     }
 
     /**
-     * Set the generator class being used by the factory.
+     * Set the content generator instance.
      *
-     * @param  string  $generator
+     * @param  \Watson\Industrie\Generators\GeneratorInterface  $generator
      * @return void
      */
-    public static function setGenerator($generator)
+    public static function setGenerator(GeneratorInterface $generator)
     {
         self::$generator = $generator;
     }
@@ -136,23 +124,23 @@ class Factory {
     /**
      * Set the model definition for the given class.
      *
-     * @param  string         $class
-     * @param  array|Closure  $definition
+     * @param  string   $class
+     * @param  Closure  $definition
      * @return void
      */
-    public static function setDefinition($class, $definition)
+    public static function setDefinition($class, Closure $definition)
     {
-        self::getBuilder()->getDefinitions()->setDefinition($class, $definition);
+        self::getDefinitions()->setDefinition($class, $definition);
     }
 
     /**
      * Add the definition for a class to the repository.
      *
-     * @param  string         $class
-     * @param  array|Closure  $definition
+     * @param  string   $class
+     * @param  Closure  $definition
      * @return void
      */
-    public static function blueprint($class, $definition)
+    public static function blueprint($class, Closure $definition)
     {
         return self::setDefinition($class, $definition);
     }

@@ -130,8 +130,6 @@ class Builder {
     {
         $definition = $this->getDefinitions()->getDefinition($class);
 
-        $this->generator->setBuilder($this);
-
         $attributes = call_user_func($definition, $this->generator);
 
         return array_merge($attributes, $overrides);
