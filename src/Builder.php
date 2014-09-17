@@ -154,13 +154,16 @@ class Builder {
      *
      * @param  string  $class
      * @param  array   $overrides
+     * @param  times   $times
      * @return mixed
      */
-    public function create($class, $overrides = [])
+    public function create($class, $overrides = [], $times = null)
     {
         $instances = [];
 
-        for ($i = 0; $i < $this->getTimes(); $i++)
+        $times = $times ?: $this->getTimes();
+
+        for ($i = 0; $i < $times; $i++)
         {
             $instances[] = $this->buildInstance($class, $overrides, true);
         }
