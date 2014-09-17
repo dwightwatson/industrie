@@ -11,9 +11,11 @@ class DefinitionRepositoryTest extends PHPUnit_Framework_TestCase {
 
     public function testGetsDefinition()
     {
-        $this->repo->setDefinition('foo', 'bar');
+        $closure = function(){ return 'bar'; };
 
-        $this->assertEquals('bar', $this->repo->getDefinition('foo'));
+        $this->repo->setDefinition('foo', $closure);
+
+        $this->assertEquals($closure, $this->repo->getDefinition('foo'));
     }
 
     public function testThrowsExceptionWhenGettingDefinitionThatDoesNotExist()
@@ -25,18 +27,23 @@ class DefinitionRepositoryTest extends PHPUnit_Framework_TestCase {
 
     public function testGetsAllDefinitions()
     {
-        $this->repo->setDefinition('foo', 'bar');
-        $this->repo->setDefinition('bat', 'baz');
+        $closure1 = function(){ return 'bar'; };
+        $closure2 = function(){ return 'baz'; };
 
-        $this->assertEquals(['foo' => 'bar', 'bat' => 'baz'], $this->repo->getDefinitions());
+        $this->repo->setDefinition('foo', $closure1);
+        $this->repo->setDefinition('bat', $closure2);
+
+        $this->assertEquals(['foo' => $closure1, 'bat' => $closure2], $this->repo->getDefinitions());
     }
 
     public function testSetsDefinition()
     {
-        $result = $this->repo->setDefinition('foo', 'bar');
+        $closure = function(){ return 'bar'; };
 
-        $this->assertEquals('bar', $result);
-        $this->assertEquals('bar', $this->repo->getDefinition('foo'));
+        $result = $this->repo->setDefinition('foo', $closure);
+
+        $this->assertEquals($closure, $result);
+        $this->assertEquals($closure, $this->repo->getDefinition('foo'));
     }
 
 }

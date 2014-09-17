@@ -1,5 +1,7 @@
 <?php namespace Watson\Industrie\Definitions;
 
+use Closure;
+
 interface RepositoryInterface {
 
     /**
@@ -21,10 +23,10 @@ interface RepositoryInterface {
     /**
      * Set the definition for the given class.
      *
-     * @param  string  $class
-     * @param  mixed   $definition
+     * @param  string   $class
+     * @param  Closure  $definition
      * @return mixed
      */
-    public function setDefinition($class, $definition);
+    public function setDefinition($class, Closure $definition);
 
 }
