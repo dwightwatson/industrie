@@ -2,8 +2,11 @@
 
 use Closure;
 use Watson\Industrie\Definitions\DefinitionRepository;
+use Watson\Industrie\Definitions\RepositoryInterface;
 use Watson\Industrie\Generators\FakerGenerator;
+use Watson\Industrie\Generators\GeneratorInterface;
 use Watson\Industrie\Loaders\DefinitionLoader;
+use Watson\Industrie\Loaders\LoaderInterface;
 
 class Factory {
 
