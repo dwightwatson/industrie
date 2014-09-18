@@ -39,52 +39,52 @@ Once you've defined your models you can go ahead and start building them. At the
     Factory::attributesFor('App\User');
 
     // Array of attributes.
-    [
-        'first_name'  => 'John',
-        'family_name' => 'Smith',
-        'email'       => 'john@smith.com',
-        'password'    => 'foobarbaz',
-        'status'      => 'approved'
-    ]
+    // [
+    //     'first_name'  => 'John',
+    //     'family_name' => 'Smith',
+    //     'email'       => 'john@smith.com',
+    //     'password'    => 'foobarbaz',
+    //     'status'      => 'approved'
+    // ]
 
 Cool, what if we wanted to actually `build()` these model instances though?
 
     Factory::build('App\User');
 
     // New populated user instace.
-    App\User([
-        'first_name'  => 'Jane',
-        'family_name' => 'Doe',
-        'email'       => 'jane@doe.com',
-        'password'    => 'hunter2',
-        'status'      => 'approved'
-    ])
+    // App\User([
+    //     'first_name'  => 'Jane',
+    //     'family_name' => 'Doe',
+    //     'email'       => 'jane@doe.com',
+    //     'password'    => 'hunter2',
+    //     'status'      => 'approved'
+    // ])
 
 If you want multiple models too, it's a cinch with `times()`.
 
     Factory::times(2)->build('App\User');
 
     // Array of new users with relations.
-    array(
-        App\User([
-            'first_name'  => 'John',
-            'family_name' => 'Smith',
-            'email'       => 'john@smith.com',
-            'password'    => 'foobarbaz',
-            'status'      => 'approved',
-
-            'country'     => App\Country(...)
-        ]),
-        App\User([
-            'first_name'  => 'Jane',
-            'family_name' => 'Doe',
-            'email'       => 'jane@doe.com',
-            'password'    => 'hunter2',
-            'status'      => 'approved',
-
-            'country'     => App\Country(...)
-        ])
-    )
+    // [
+    //     App\User([
+    //         'first_name'  => 'John',
+    //         'family_name' => 'Smith',
+    //         'email'       => 'john@smith.com',
+    //         'password'    => 'foobarbaz',
+    //         'status'      => 'approved',
+    // 
+    //         'country'     => App\Country(...)
+    //     ]),
+    //     App\User([
+    //         'first_name'  => 'Jane',
+    //         'family_name' => 'Doe',
+    //         'email'       => 'jane@doe.com',
+    //         'password'    => 'hunter2',
+    //         'status'      => 'approved',
+    // 
+    //         'country'     => App\Country(...)
+    //     ])
+    // ]
 
 Finally, if you want to actually persist these new models as they are generated, use the `create()` method.
 
@@ -94,3 +94,17 @@ Finally, if you want to actually persist these new models as they are generated,
 Relationships will only be generated when you create a model (not when you build the model or just fetch the attributes for a model, for example). Industrie will recursively loop through your model definitions and create the tree of dependencies for your model.
 
 To define a relationship, simply set the field on your model definition using the `belongsTo` generator. You may also pass any overrides you wish through to the generator.
+
+# Generators
+By default Industrie ships with a generator that makes use of Faker with the `en_US` definitions. It's really simple to override the Faker dictionary by passing in another Faker generator instance to the `FakerGenerator`.
+
+    // Pass your own Faker instance to \Watson\Industrie\Generators\FakerGenerator
+    Factory::setGenerator(new FakerGenerator(Faker::create('en_AU')));
+
+You can even replace the Faker generator completely with your own generator that implements `GeneratorInterface`.
+
+    class MyGenerator extends \Watson\Industrie\Generators\GeneratorInterface {
+        // ...
+    }
+
+    Factory::setGenerator(new MyGenerator);
