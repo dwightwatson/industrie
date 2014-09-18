@@ -2,10 +2,9 @@
 
 class FakerGeneratorTest extends PHPUnit_Framework_TestCase {
 
+    protected $faker;
 
-    public $faker;
-
-    public $generator;
+    protected $generator;
 
     public function setUp()
     {

@@ -1,6 +1,7 @@
 <?php namespace Watson\Industrie;
 
 use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Watson\Industrie\Definitions\DefinitionRepository;
 use Watson\Industrie\Definitions\RepositoryInterface;
 use Watson\Industrie\Generators\FakerGenerator;
@@ -55,7 +56,7 @@ class Factory {
     {
         if ( ! self::$loader)
         {
-            self::$loader = new DefinitionLoader;
+            self::$loader = new DefinitionLoader(new Filesystem);
         }
 
         return self::$loader;

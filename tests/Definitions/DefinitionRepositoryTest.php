@@ -2,7 +2,7 @@
 
 class DefinitionRepositoryTest extends PHPUnit_Framework_TestCase {
 
-    public $repo;
+    protected $repo;
 
     public function setUp()
     {

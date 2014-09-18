@@ -1,9 +1,27 @@
 <?php namespace Watson\Industrie\Loaders;
 
+use Illuminate\Filesystem\Filesystem;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 class DefinitionLoader implements LoaderInterface {
+
+    /**
+     * Illuminate filesystem instance.
+     *
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    protected $file;
+
+    /**
+     * Construct the loader.
+     *
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    public function __construct(Filesystem $file)
+    {
+        $this->file = $file;
+    }
 
     /**
      * Locations to search for model definitions.
@@ -28,7 +46,7 @@ class DefinitionLoader implements LoaderInterface {
 
         foreach ($this->directories as $directory)
         {
-            if (is_dir(base_path() . "/{$directory}"))
+            if ($this->file->isDirectory(base_path() . "/{$directory}"))
             {
                 $directories[] = base_path(). "/{$directory}";
             }
@@ -66,12 +84,9 @@ class DefinitionLoader implements LoaderInterface {
 
         foreach ($this->getDefinitionDirectories() as $directory)
         {
-            foreach ($this->getDirectoryIterator($directory) as $file)
+            foreach ($this->file->allFiles($directory) as $file)
             {
-                if ($file->isFile())
-                {
-                    $filenames[] = $file->getRealPath();
-                }
+                $filenames[] = $file->getRealPath();
             }
         }
 
