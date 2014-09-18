@@ -4,7 +4,7 @@ use Watson\Industrie\Factory;
 
 class FactoryTest extends PHPUnit_Framework_TestCase {
 
-    public $loader;
+    protected $loader;
 
     public function setUp()
     {
@@ -17,21 +17,37 @@ class FactoryTest extends PHPUnit_Framework_TestCase {
         Mockery::close();
     }
 
-    public function testGetBuilderLoadsDefinitionsIfNotLoaded()
+    public function testGetsBuilderAndLoadsDefinitions()
     {
         $this->loader->shouldReceive('loadDefinitions')->once();
-
-        Factory::getBuilder();
-    }
-
-    public function testGetBuilderReturnsNewBuilder()
-    {
-        $definitions = Mockery::mock('Watson\Industrie\Definitions\RepositoryInterface');
-        Factory::setDefinitions($definitions);
 
         $result = Factory::getBuilder();
 
         $this->assertInstanceOf('Watson\Industrie\Builder', $result);
+    }
+
+    public function testGetsLoader()
+    {
+        $result = Factory::getLoader();
+
+        $this->assertEquals($this->loader, $result);
+    }
+
+    public function testSetsLoader()
+    {
+        $mock = Mockery::mock('Watson\Industrie\Loaders\LoaderInterface');
+        Factory::setLoader($mock);
+
+        $result = Factory::getLoader();
+
+        $this->assertEquals($mock, $result);
+    }
+
+    public function testGetsDefinitions()
+    {
+        $result = Factory::getDefinitions();
+
+        $this->assertInstanceOf('Watson\Industrie\Definitions\RepositoryInterface', $result);
     }
 
 }
