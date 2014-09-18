@@ -149,6 +149,18 @@ class Factory {
     }
 
     /**
+     * Add the definition for a class to the repository.
+     *
+     * @param  string   $class
+     * @param  Closure  $definition
+     * @return void
+     */
+    public static function define($class, Closure $definition)
+    {
+        return self::setDefinition($class, $definition);
+    }
+
+    /**
      * Syntax-helper for setting the number of times the generator should run.
      *
      * @param  int  $times
