@@ -15,6 +15,13 @@ class FakerGenerator implements GeneratorInterface {
     protected $faker;
 
     /**
+     * Generated relations.
+     *
+     * @var array
+     */
+    protected $relations = [];
+
+    /**
      * Construct the generator.
      *
      * @param  Faker\Generator   $faker
@@ -57,7 +64,7 @@ class FakerGenerator implements GeneratorInterface {
      */
     public function belongsTo($class, $overrides = [])
     {
-        $instance = Factory::create($class, $overrides);
+        $instance = $this->getRelation($class, $overrides);
 
         return new BelongsToRelation($instance);
     }
@@ -85,4 +92,20 @@ class FakerGenerator implements GeneratorInterface {
         return call_user_func_array([$this->faker, $method], $parameters);
     }
 
+    /**
+     * Get a related instance.
+     *
+     * @param  string  $class
+     * @param  array   $overrides
+     * @return mixed
+     */
+    protected function getRelation($class, $overrides)
+    {
+        if ( ! array_key_exists($class, $this->relations))
+        {
+            $this->relations[$class] = Factory::create($class, $overrides);
+        }
+
+        return $this->relations[$class];
+    }
 }
