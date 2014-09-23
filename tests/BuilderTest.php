@@ -81,6 +81,10 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
                 return ['foo' => 'bar'];
             });
 
+        $this->generator->shouldReceive('setGenerateRelations')
+            ->once()
+            ->with(false);
+
         $result = $this->builder->attributesFor('Foo');
 
         $this->assertEquals(['foo' => 'bar'], $result);
@@ -95,6 +99,10 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
             {
                 return ['foo' => 'bar'];
             });
+
+        $this->generator->shouldReceive('setGenerateRelations')
+            ->once()
+            ->with(false);
 
         $result = $this->builder->attributesFor('Foo', ['foo' => 'baz']);
 

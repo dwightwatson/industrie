@@ -128,11 +128,7 @@ class Builder {
      */
     public function attributesFor($class, $overrides = [])
     {
-        $definition = $this->getDefinitions()->getDefinition($class);
-
-        $attributes = call_user_func($definition, $this->generator);
-
-        return array_merge($attributes, $overrides);
+        return $this->getAttributes($class, $overrides);
     }
 
     /**
@@ -202,7 +198,7 @@ class Builder {
     {
         $instance = $this->getInstance($class);
 
-        foreach ($this->attributesFor($class, $overrides) as $key => $value)
+        foreach ($this->getAttributes($class, $overrides, $persist) as $key => $value)
         {
             if ($value instanceof RelationInterface)
             {
@@ -220,6 +216,26 @@ class Builder {
         }
 
         return $instance;
+    }
+
+    /**
+     * Get the attributes for a given class with the overrides, and relations
+     * if required.
+     *
+     * @param  string  $class
+     * @param  array   $overrides
+     * @param  bool    $relations
+     * @return array
+     */
+    protected function getAttributes($class, $overrides, $relations = false)
+    {
+        $definition = $this->getDefinitions()->getDefinition($class);
+
+        $this->getGenerator()->setGenerateRelations($relations);
+
+        $attributes = call_user_func($definition, $this->getGenerator());
+
+        return array_merge($attributes, $overrides);
     }
 
 }
