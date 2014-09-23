@@ -2,10 +2,8 @@
 
 use Faker\Factory as Faker;
 use Faker\Generator as Generator;
-use Watson\Industrie\Relations\BelongsToRelation;
-use Watson\Industrie\Factory;
 
-class FakerGenerator implements GeneratorInterface {
+class FakerGenerator extends RelationsGenerator implements GeneratorInterface {
 
     /**
      * Faker instance.
@@ -13,13 +11,6 @@ class FakerGenerator implements GeneratorInterface {
      * @var \Faker\Factory
      */
     protected $faker;
-
-    /**
-     * Generated relations.
-     *
-     * @var array
-     */
-    protected $relations = [];
 
     /**
      * Construct the generator.
@@ -56,20 +47,6 @@ class FakerGenerator implements GeneratorInterface {
     }
 
     /**
-     * Generate the belongs to relationship.
-     *
-     * @param  string  $class
-     * @param  array   $overrides
-     * @return \Watson\Industrie\Relations\BelongsToRelation
-     */
-    public function belongsTo($class, $overrides = [])
-    {
-        $instance = $this->getRelation($class, $overrides);
-
-        return new BelongsToRelation($instance);
-    }
-
-    /**
      * Properties can fall back to Faker.
      *
      * @param  string  $key
@@ -90,22 +67,5 @@ class FakerGenerator implements GeneratorInterface {
     public function __call($method, $parameters)
     {
         return call_user_func_array([$this->faker, $method], $parameters);
-    }
-
-    /**
-     * Get a related instance.
-     *
-     * @param  string  $class
-     * @param  array   $overrides
-     * @return mixed
-     */
-    protected function getRelation($class, $overrides)
-    {
-        if ( ! array_key_exists($class, $this->relations))
-        {
-            $this->relations[$class] = Factory::create($class, $overrides);
-        }
-
-        return $this->relations[$class];
     }
 }
