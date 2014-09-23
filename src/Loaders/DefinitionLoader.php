@@ -1,8 +1,7 @@
 <?php namespace Watson\Industrie\Loaders;
 
 use Illuminate\Filesystem\Filesystem;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
+use Watson\Industrie\Exceptions\FactoryDirectoryNotFoundException;
 
 class DefinitionLoader implements LoaderInterface {
 
@@ -14,13 +13,23 @@ class DefinitionLoader implements LoaderInterface {
     protected $file;
 
     /**
+     * The application base path.
+     *
+     * @var string
+     */
+    protected $basePath;
+
+    /**
      * Construct the loader.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @param  \Illuminate\Filesystem\Filesystem  $file
+     * @param  string  $basePath
+     * @return void
      */
-    public function __construct(Filesystem $file)
+    public function __construct(Filesystem $file, $basePath = null)
     {
         $this->file = $file;
+        $this->basePath = $basePath ?: base_path();
     }
 
     /**
@@ -36,6 +45,27 @@ class DefinitionLoader implements LoaderInterface {
     ];
 
     /**
+     * Get the loader base path.
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->basePath;
+    }
+
+    /**
+     * Set the loader base path.
+     *
+     * @param  string  $basePath
+     * @return void
+     */
+    public function setBasePath($basePath)
+    {
+        $this->basePath = $basePath;
+    }
+
+    /**
      * Find the directory that contains the factory definitions.
      *
      * @return mixed
@@ -46,9 +76,9 @@ class DefinitionLoader implements LoaderInterface {
 
         foreach ($this->directories as $directory)
         {
-            if ($this->file->isDirectory(base_path() . "/{$directory}"))
+            if ($this->file->isDirectory($this->getBasePath() . "/{$directory}"))
             {
-                $directories[] = base_path(). "/{$directory}";
+                $directories[] = $this->getBasePath() . "/{$directory}";
             }
         }
 
@@ -58,19 +88,6 @@ class DefinitionLoader implements LoaderInterface {
         }
 
         throw new FactoryDirectoryNotFoundException;
-    }
-
-    /**
-     * Get a recursive iterator for all files in the given directory.
-     *
-     * @param  string  $directory
-     * @return RecursiveIteratorIterator
-     */
-    public function getDirectoryIterator($directory)
-    {
-        return new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($directory)
-        );
     }
 
     /**
